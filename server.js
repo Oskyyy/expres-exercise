@@ -14,11 +14,11 @@ app.use('/user', (req, res, next) => {
 });
 
 app.get('/user/panel', (req, res) => {
-  res.sendFile(path.join(__dirname + '/views/forbidden.html'));
+  res.render('forbidden'); 
 });
 
 app.get('/user/settings', (req, res) => {
-  res.sendFile(path.join(__dirname + '/views/forbidden.html'));
+  res.render('forbidden');
 });
 
 app.get('/', (req, res) => {
@@ -50,7 +50,7 @@ app.get('/hello/:name', (req, res) => {
 });
 
 app.use((req, res, next) => {
-  res.status(404).sendFile(path.join(__dirname + `/views/404.html`));
+  res.render('404');
 });
 
 app.listen(8000, () => {
