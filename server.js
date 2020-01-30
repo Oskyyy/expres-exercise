@@ -3,6 +3,11 @@ const path = require('path');
 
 const app = express();
 
+const hbs = require('express-handlebars');
+
+app.engine('.hbs', hbs());
+app.set('view engine', '.hbs');
+
 app.use((req, res, next) => {
   res.show = (name) => {
     res.sendFile(path.join(__dirname + `/views/${name}`));
@@ -25,11 +30,9 @@ app.get('/user/settings', (req, res) => {
   res.sendFile(path.join(__dirname + '/views/forbidden.html'));
 });
 
-
 app.get('/hello/:name', (req, res) => {
-  res.send(`Hello ${req.params.name}`);
+  res.render('hello', { layout: false, name: req.params.name });
 });
-
 
 app.get('/', (req, res) => {
   res.show('home.html');
