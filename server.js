@@ -6,7 +6,8 @@ const app = express();
 app.engine('.hbs', hbs());
 app.set('view engine', '.hbs');
 
-app.use(express.static(path.join(__dirname + '/public')));
+app.use(express.static(path.join(__dirname + '/public'))); 
+app.use(express.urlencoded({ extended: false })); // handle x-www-form-urlencoded 
 
 app.use('/user', (req, res, next) => {
   res.send('Please log in');
@@ -47,6 +48,17 @@ app.get('/contact', (req, res) => {
 
 app.get('/hello/:name', (req, res) => {
   res.render('hello', { name: req.params.name });
+});
+
+app.post('/contact/send-message', (req, res) => {
+  const { author, sender, title, message } = req.body;
+
+  if(author && sender && title && message) {
+    res.render('contact', { isSent: true });
+  }
+  else {
+    res.render('contact', { isError: true });
+  }
 });
 
 app.use((req, res, next) => {
